@@ -1,0 +1,69 @@
+# Finished Parrot script, repeats words back with random noises. Also draws ASCII graphical art
+import random
+import os
+
+length = 0  # Initialize Length Variable
+squawk = "*SQUAWK*"  # Make the squawk String
+greet = ["I can " + squawk + " repeat whatever you " + squawk + " say! | ",
+         "Say something " + squawk + " and I will " + squawk + " Try to copy you! | ",
+         "Type anything " + squawk + " and I'll say them back! | "]  # Random Greetings
+
+
+def clear():
+    os.system("cls")
+
+
+def parrot_noise():  # Replaces random spaces with SQUAWKS
+    global length, phrase  # Mark Length and Phrase Variables as Global
+    count = phrase.count(" ")  # Counts the Spaces for squawk assignment
+    phrase = phrase.split()  # Splits the phrase into a list to allow for string insertion
+    rand = 0  # Initialize random variable
+    for index in range(count * 2):  # For each Word/Space, chance to add a squawk
+        if rand == 0:
+            phrase.insert(index, squawk)
+            rand = random.choice([2, 4])  # 1 squawk, then another two or three words later, repeating
+        else:
+            rand -= 1
+
+
+while True:  # User Loop
+    print("|)--------------------------------------------------------------------------------------------------------------------(|")
+    phrase = input(str("|> " + random.choice(greet)))  # < Chooses a random greeting, assign it to "phrase"
+    parrot_noise()  # Calls Squawk function
+    phrase = " ".join(phrase)  # Turns Phrase List Back into a string, separated by spaces
+    length = len(phrase)  # Calculates length of the phrase by characters
+    outside = str("_" * length)
+    inside = str(" " * length)  # <^ These lines adjust the text bubble in relation to user input
+    o_filler = str(" " * (99 - int(length)))
+    i_filler = str(" " * (98 - int(length)))  # <^ These lines add the spaces before the end border character
+    print("|)--------------------------------------------------------------------------------------------------------------------(|")
+    print("|    ________" + outside + "______" + o_filler + " |")
+    print("|   /         " + inside + "     \ " + i_filler + "|")
+    print("|  |------| " + phrase + " |------|" + i_filler + "|")
+    print("|   \____       __" + outside + "_/" + o_filler + "|")
+    print("|        \_    /      _                                                                                                |")
+    print("|          \_ \_    /` '\                                                                                              |")
+    print("|            \__\ /| @   l                                                                                             |")
+    print("|                 \|      \                                                                                            |")
+    print("|    ,^^^^^^^^^,    `\     '\_                                                                                         |")
+    print("|    |_________|      \    __ '\                                                                                       |")
+    print("|    |_________|       l  \  `\ `\__                                                                                   |")
+    print("|    |         |        \  `\./`    ``\                                                                                |")
+    print("|    `=========`         \ ____ / \   l                                                                                |")
+    print("|                           ||  ||  )  /                                                                               |")
+    print("|==)==)==)==)==)==)==)==)==(((=(((==l /==)==)==)====)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)==)===|")
+    print("|                                   l /                                                                                |")
+    print("|                                  / /                                                                                 |")
+    print("|                                 / /                                                                                  |")
+    print("|                                //                                                                                    |")
+    print("|                               /                                                                                      |")
+    print("|)--------------------------------------------------------------------------------------------------------------------(|")
+    cmd = input("|> Do you want to leave? Enter 'q'." 
+                "\n|> If not, press 'enter' to play again! | ")
+    if cmd == 'q':
+        clear()
+        input("|> Goodbye Friend!")
+        break
+    else:
+        clear()
+        pass
