@@ -1,0 +1,62 @@
+import random
+import os
+run = True
+menu = True
+play = False
+
+# Add words to the word list!
+words = ["bakery", "cartwheel", "bottle", "castle", "catapult", "meteor", "skyscraper"]
+
+# Initialize variables
+right_letters = []  # Keeps track of correctly guessed letters
+wrong_letters = []  # Keeps track of incorrectly guessed letters
+word = []  # Stores selected word
+
+
+def clear():  # Clear the Windows CMD line
+    os.system("cls")
+
+
+while run:  # Script Loop
+    while menu:  # Menu
+        clear()
+        choice = input("| 1 > Play Game\n| 2 > Exit\n\n| > ")
+        if choice == "1":
+            choice = random.choice(words)  # Select a random word from the words list
+            for char in choice:  # Split each character of the word into a list
+                word.append(char)
+                right_letters.append("_")  # Add underscore placeholder for each correct letter
+            menu = False
+            play = True
+        elif choice == "2":  # Exit Game
+            run = False
+            break
+
+    while play:  # Main Game Loop
+        clear()
+        print("| Wrong Letters: " + " ".join(wrong_letters) + " |")  # Display wrong letters
+        print("| Current Letters: " + "".join(right_letters) + " |\n")  # Display correct letters
+        letter = input("| Guess a letter! > ")
+        if len(wrong_letters) == 10:  # Trigger game loss when too many incorrect characters have been guessed
+            print("| You Lose!")
+            play = False
+        if len(letter) == 1 and letter.isalpha():  # Check if letter is valid
+            if letter in right_letters or letter in wrong_letters:  # Check if character has already been guessed
+                print("You have already guessed this letter!")
+                input("")
+            elif letter in word:  # If the letter is found in the word...
+                x = 0
+                for char in word:
+                    if letter == char:
+                        right_letters[x] = letter  # Replace the underscore where the character lies
+                    x += 1
+                if word == right_letters:  # Trigger Game Win when the word matches with the right letters
+                    print("You win! The word was: " + "".join(word))
+                    input("")
+                    play = False
+                    menu = True
+            elif letter not in word:  # If the letter is not in the word, add to list of wrong letters
+                wrong_letters.append(letter)
+        else:
+            print("Not a valid letter!")
+            input("")
