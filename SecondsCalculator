@@ -1,0 +1,65 @@
+# Finished Calculator | Calculates how many seconds/days user has been alive
+import os
+import datetime
+run = True
+
+# Use datetime module to get today's date
+now = datetime.datetime.now()
+year_now = now.year
+month_now = now.month
+day_now = now.day
+
+
+# Creates low-level graphics using ASCII
+def draw():
+    print("|>--------------------------------------------------<|")
+
+
+# Asks for birthdate. All inputs need to be integers
+draw()
+print("| Current Date: " + str(month_now) + "/" + str(day_now) + "/" + str(year_now))
+draw()
+year_born = int(input("| What year were you born? > "))
+month_born = int(input("| Month? > "))
+day_born = int(input("| Day? > "))
+print("| Birthday: " + str(month_born) + "/" + str(day_born) + "/" + str(year_born))
+
+
+# Function that calculates the seconds
+def life_seconds():
+    years = int(year_now) - int(year_born)
+    if int(month_now) < int(month_born):  # If the birth month has not been reached in the current year, subtract a year
+        years -= 1
+        months = 12 - int(month_born) + int(month_now)
+    else:
+        months = int(month_now) - int(month_born)
+    if int(day_now) < int(day_born):  # If the birthday has not been reached in the current year, subtract a month
+        months -= 1
+        days = 30 - int(day_born) + int(day_now)
+    else:
+        days = int(day_now) - int(day_born)
+
+    totals = int(years * 31536000) + int(months * 2592000) + int(days * 86400)
+    return totals
+
+
+while run:
+    totals = life_seconds()
+    draw()
+    print("| You have been alive for about " + str("{:,}".format(totals)) + " seconds!")
+    print("| Over " + str("{:,}".format(int(totals / 86400))) + " days!")  # <^ Prints totals with comma separators
+    draw()
+    x = input("| Want another go? (y/n) > ")
+    if x == "y":
+        os.system("cls")
+        draw()
+        print("| Current Date: " + str(month_now) + "/" + str(day_now) + "/" + str(year_now))
+        draw()
+        year_born = int(input("| What year were you born? > "))
+        month_born = int(input("| Month? > "))  # <V^ Inputs for new birthday
+        day_born = int(input("| Day? > "))
+        run = True
+    if x == "n":
+        print("| Goodbye Old-Timer!")
+        input("| >")
+        break
